@@ -37,12 +37,12 @@ function ZoneMarkers({ weatherData, onZoneClick, selectedZone }: MapProps) {
           <CircleMarker
             key={zone.id}
             center={[zone.lat, zone.lon]}
-            radius={isSelected ? 18 : 14}
+            radius={isSelected ? 20 : 16}
             pathOptions={{
               fillColor: getColor(data.probability),
-              fillOpacity: 0.8,
-              color: isSelected ? '#fff' : '#1e293b',
-              weight: isSelected ? 3 : 2,
+              fillOpacity: 0.9,
+              color: '#ffffff',
+              weight: isSelected ? 4 : 2,
             }}
             eventHandlers={{
               click: () => {
@@ -74,7 +74,7 @@ export default function Map({ weatherData, onZoneClick, selectedZone }: MapProps
     >
       <TileLayer
         attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
       />
       <ZoneMarkers
         weatherData={weatherData}
