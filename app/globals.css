@@ -6,26 +6,26 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background: #0f172a;
 }
 
-/* Leaflet overrides for light theme */
+/* Leaflet overrides for dark theme */
 .leaflet-container {
-  background: #f1f5f9;
+  background: #1e293b;
 }
 
 .leaflet-popup-content-wrapper {
-  background: white;
-  color: #1e293b;
+  background: #1e293b;
+  color: white;
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 .leaflet-popup-tip {
-  background: white;
+  background: #1e293b;
 }
 
 .leaflet-popup-close-button {
-  color: #64748b !important;
+  color: white !important;
 }
 
 /* Slide up animation */
