@@ -12,14 +12,16 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Zone not found" }, { status: 404 });
     }
     const weather = await fetchWeather(zone.lat, zone.lon);
-    return NextResponse.json({ zone, weather });
+    return NextResponse.json({ [zone.id]: weather });
   }
   
-  // Si no, todas las zonas
-  const results = await Promise.all(
+  // Si no, todas las zonas - formato { zoneId: weatherData }
+  const results: { [key: string]: any } = {};
+  
+  await Promise.all(
     zones.map(async (zone) => {
       const weather = await fetchWeather(zone.lat, zone.lon);
-      return { zone, weather };
+      results[zone.id] = weather;
     })
   );
   
@@ -27,33 +29,25 @@ export async function GET(request: NextRequest) {
 }
 
 async function fetchWeather(lat: number, lon: number) {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&minutely_15=precipitation_probability,precipitation&timezone=America/Mexico_City&forecast_minutely_15=4`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m&minutely_15=precipitation_probability&timezone=America/Mexico_City&forecast_minutely_15=4`;
   
   try {
-    const res = await fetch(url, { next: { revalidate: 300 } }); // cache 5 min
+    const res = await fetch(url, { next: { revalidate: 300 } });
     const data = await res.json();
     
     const minutely = data.minutely_15;
-    if (!minutely) return { status: "unknown", probability: 0 };
+    const current = data.current || {};
     
-    // Próximos 4 intervalos de 15 min = 1 hora
-    const probs = minutely.precipitation_probability?.slice(0, 4) || [];
+    const probs = minutely?.precipitation_probability?.slice(0, 4) || [];
     const maxProb = Math.max(...probs, 0);
     
-    // Determinar status
-    let status = "clear"; // verde
-    if (maxProb >= 70) status = "rain"; // rojo
-    else if (maxProb >= 40) status = "likely"; // naranja
-    else if (maxProb >= 20) status = "possible"; // amarillo
-    
     return {
-      status,
       probability: maxProb,
-      nextHour: probs,
-      time: minutely.time?.slice(0, 4) || [],
+      temp: Math.round(current.temperature_2m || 0),
+      wind: Math.round(current.wind_speed_10m || 0),
     };
   } catch (e) {
     console.error("Weather fetch error:", e);
-    return { status: "error", probability: 0 };
+    return { probability: 0, temp: 0, wind: 0 };
   }
 }

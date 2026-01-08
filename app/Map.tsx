@@ -18,10 +18,10 @@ interface MapProps {
 }
 
 function getColor(prob: number): string {
-  if (prob <= 20) return '#22c55e'; // verde
-  if (prob <= 50) return '#eab308'; // amarillo
-  if (prob <= 80) return '#f97316'; // naranja
-  return '#ef4444'; // rojo
+  if (prob <= 20) return '#22c55e';
+  if (prob <= 50) return '#eab308';
+  if (prob <= 80) return '#f97316';
+  return '#ef4444';
 }
 
 function ZoneMarkers({ weatherData, onZoneClick, selectedZone }: MapProps) {
@@ -73,8 +73,8 @@ export default function Map({ weatherData, onZoneClick, selectedZone }: MapProps
       zoomControl={false}
     >
       <TileLayer
-        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+        url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
       />
       <ZoneMarkers
         weatherData={weatherData}

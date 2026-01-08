@@ -6,22 +6,22 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: #0f172a;
+  background: #334155;
 }
 
-/* Leaflet overrides for dark theme */
+/* Leaflet overrides */
 .leaflet-container {
-  background: #1e293b;
+  background: #475569;
 }
 
 .leaflet-popup-content-wrapper {
-  background: #1e293b;
+  background: #475569;
   color: white;
   border-radius: 12px;
 }
 
 .leaflet-popup-tip {
-  background: #1e293b;
+  background: #475569;
 }
 
 .leaflet-popup-close-button {
